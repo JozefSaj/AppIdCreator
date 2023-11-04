@@ -1,0 +1,5 @@
+﻿@using AppIdCreatorTool.Components
+@{
+    ViewData["Title"] = "Home Page";
+}
+@(await Html.RenderComponentAsync<Counter>(RenderMode.Server))

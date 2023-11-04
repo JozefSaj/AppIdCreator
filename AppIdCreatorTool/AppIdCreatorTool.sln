@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppIdCreatorTool", "AppIdCreatorTool\AppIdCreatorTool.csproj", "{6281692A-E0FD-4C8F-96D7-411C74B4EE5A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6281692A-E0FD-4C8F-96D7-411C74B4EE5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6281692A-E0FD-4C8F-96D7-411C74B4EE5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6281692A-E0FD-4C8F-96D7-411C74B4EE5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6281692A-E0FD-4C8F-96D7-411C74B4EE5A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4B21B62C-6D48-4E61-9D2E-2D5D4D56B169}
+	EndGlobalSection
+EndGlobal
