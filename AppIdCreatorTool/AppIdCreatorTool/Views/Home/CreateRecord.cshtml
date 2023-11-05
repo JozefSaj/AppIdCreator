@@ -1,0 +1,56 @@
+﻿@using AppIdCreatorTool.Model
+@model LicenseTemplateModel
+
+@{
+    var licenseTypes = new List<string> { "DEV", "SUL", "TIA" };
+}
+
+<h2>Create New Record</h2>
+
+<form asp-controller="Home" asp-action="SaveNewRecord" method="post">
+    <div>
+        <label for="FullName">Full Name</label>
+        <input type="text" asp-for="FullName" id="FullNameInput" />
+    </div>
+    <div>
+        <label for="ShortName">Short Name</label>
+        <input type="text" asp-for="ShortName" id="ShortNameInput" />
+    </div>
+    <div>
+        <label for="LicenseType">License Type</label>
+        <select asp-for="LicenseType" asp-items="licenseTypes.Select(type => new SelectListItem(type, type))" id="LicenseTypeInput">
+        </select>
+    </div>
+    <button type="submit">Save</button>
+</form>
+
+<div>
+    <h3>Selected Record</h3>
+    <table>
+        <tr>
+            <th>Full Name</th>
+            <th>Short Name</th>
+            <th>License Type</th>
+        </tr>
+        <tr>
+            <td><span id="FullNameOutput">@Model.FullName</span></td>
+            <td><span id="ShortNameOutput">@Model.ShortName</span></td>
+            <td><span id="LicenseTypeOutput">@Model.LicenseType</span></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    //to handle real-time updates
+    document.getElementById("FullNameInput").addEventListener("input", function () {
+        document.getElementById("FullNameOutput").textContent = this.value;
+    });
+
+    document.getElementById("ShortNameInput").addEventListener("input", function () {
+        document.getElementById("ShortNameOutput").textContent = this.value;
+    });
+
+    document.getElementById("LicenseTypeInput").addEventListener("input", function () {
+        document.getElementById("LicenseTypeOutput").textContent = this.value;
+    });
+</script>

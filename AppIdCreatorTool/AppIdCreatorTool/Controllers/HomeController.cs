@@ -37,6 +37,30 @@ namespace AppIdCreatorTool.Controllers
             return View("SearchResult", searchResult);
         }
 
+        public IActionResult CreateRecord(int ID)
+        {
+            var selectedRecord = _db.LicenseTemplates.FirstOrDefault(lt => lt.ID == ID);
+
+            if (selectedRecord == null)
+            {
+                return NotFound(); 
+            }
+
+            return View("CreateRecord", selectedRecord);
+        }
+        [HttpPost]
+        public IActionResult SaveNewRecord(LicenseTemplateModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                viewModel.DatePublished = DateTime.Now;
+                _db.LicenseTemplates.Add(viewModel);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View("CreateRecord", viewModel); // If there are validation errors, return to the same page
+        }
         public IActionResult Privacy()
         {
             return View();

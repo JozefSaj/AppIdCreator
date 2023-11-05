@@ -9,10 +9,27 @@
 }
 else
 {
-    <ul>
-        @foreach (var result in Model)
-        {
-            <li>@result.FullName</li>
-        }
-    </ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Full Name</th>
+                <th>Short Name</th>
+                <th>License Type</th>
+                <th>Date Published</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var result in Model)
+            {
+                <tr>
+                    <td><a asp-controller="Home" asp-action="CreateRecord" asp-route-id="@result.ID">@result.ID</a></td>
+                    <td>@result.FullName</td>
+                    <td>@result.ShortName</td>
+                    <td>@result.LicenseType</td>
+                    <td>@result.DatePublished</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
