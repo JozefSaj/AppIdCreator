@@ -1,0 +1,54 @@
+﻿@page "/search"
+
+@using AppIdCreatorTool.Model
+@using System.Collections.Generic
+@inject HttpClient Http
+
+<h2>Search Results</h2>
+
+<form asp-controller="Home" asp-action="SearchResult" method="get">
+    <input type="text" name="recordName" placeholder="Search..." />
+    <button type="submit">Search</button>
+</form>
+
+@if (searchResults == null)
+{
+    <p>No results found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Full Name</th>
+                <th>Short Name</th>
+                <th>License Type</th>
+                <th>Date Published</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var result in searchResults)
+            {
+                <tr>
+                    <td>@result.ID</td>
+                    <td>@result.FullName</td>
+                    <td>@result.ShortName</td>
+                    <td>@result.LicenseType</td>
+                    <td>@result.DatePublished</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<component type="typeof(SearchResults)" param-searchResults="searchResult" />
+@code {
+    private List<LicenseTemplateModel> searchResults;
+
+    private async Task PerformSearch()
+    {
+        var recordName = ""; // Get the value of the search input
+        var result = await Http.GetFromJsonAsync<List<LicenseTemplateModel>>($"/Home/SearchResult?recordName={recordName}");
+        searchResults = result;
+    }
+}

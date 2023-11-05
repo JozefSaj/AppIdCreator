@@ -1,0 +1,53 @@
+﻿@using AppIdCreatorTool.Model
+@model List<TemporaryLicenseTemplateModel>
+
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>Id</th>*@
+            <th>Full Name</th>
+            <th>Short Name</th>
+            <th>License Type</th>
+            <th>Date Published</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var result in Model)
+        {
+            <tr>
+                @*<td><a asp-controller="Home" asp-action="CreateRecord" asp-route-id="@result.ID">@result.ID</a></td>*@
+                <td>@result.FullName</td>
+                <td>@result.ShortName</td>
+                <td>@result.LicenseType</td>
+                <td>@result.DatePublished</td>
+                <td>
+                    <span style ="@(result.CurrentStatus == StatusType.Accepted ? "color: green;" : (result.CurrentStatus == StatusType.Declined ? "color: red;" : ""))">
+                        @result.CurrentStatus
+
+                    </span>
+                </td>
+                <td>
+                    @if (result.CurrentStatus == StatusType.Pending)
+                    {
+                        <a asp-controller="TemporaryLicenseTemplate" asp-action="AcceptRecord" asp-route-id="@result.ID" class="no_underline">
+                            <span class="btn btn-success btn-sm">
+                                <i class="bi bi-check"></i> Accept
+                            </span>
+                        </a>
+                        <a asp-controller="TemporaryLicenseTemplate" asp-action="DeclineRecord" asp-route-id="@result.ID" class="no_underline">
+                            <span class="btn btn-danger btn-sm">
+                                <i class="bi bi-x"></i> Decline
+                            </span>
+                        </a>
+                    }
+                    else
+                    {
+                       <p>Resolved</p>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

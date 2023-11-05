@@ -20,7 +20,6 @@ namespace AppIdCreatorTool.Controllers
 
         public IActionResult Index()
         {
-            var models = _db.LicenseTemplates.ToList();
             return View();
         }
 
@@ -49,12 +48,13 @@ namespace AppIdCreatorTool.Controllers
             return View("CreateRecord", selectedRecord);
         }
         [HttpPost]
-        public IActionResult SaveNewRecord(LicenseTemplateModel viewModel)
+        public IActionResult SaveNewRecord(TemporaryLicenseTemplateModel viewModel)
         {
             if (ModelState.IsValid)
             {
+                viewModel.CurrentStatus = StatusType.Pending;
                 viewModel.DatePublished = DateTime.Now;
-                _db.LicenseTemplates.Add(viewModel);
+                _db.TemporaryLicenseTemplateModels.Add(viewModel);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
