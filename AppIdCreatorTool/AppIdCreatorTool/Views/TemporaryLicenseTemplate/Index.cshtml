@@ -1,6 +1,16 @@
 ﻿@using AppIdCreatorTool.Model
 @model List<TemporaryLicenseTemplateModel>
+@{
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if(ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 
+
+}
 <table class="table">
     <thead>
         <tr>
@@ -11,11 +21,13 @@
             <th>Date Published</th>
             <th>Status</th>
             <th>Actions</th>
+            <th>Note</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var result in Model)
         {
+
             <tr>
                 @*<td><a asp-controller="Home" asp-action="CreateRecord" asp-route-id="@result.ID">@result.ID</a></td>*@
                 <td>@result.FullName</td>
@@ -47,7 +59,16 @@
                        <p>Resolved</p>
                     }
                 </td>
+                <td>
+                    <a asp-controller="TemporaryLicenseTemplate" asp-action="ShowNote" asp-route-id="@result.ID" class="no_underline">
+                        <span class="btn btn-info btn-sm">
+                            <i class="bi bi-x"></i> Show Note
+                        </span>
+                    </a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<partial name="_pager" model="@pager"/>

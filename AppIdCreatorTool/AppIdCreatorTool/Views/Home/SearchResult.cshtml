@@ -2,6 +2,15 @@
 @model List<LicenseTemplateModel>
 
 <h2>Search Results</h2>
+@{
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
 
 @if (Model.Count == 0)
 {
@@ -33,3 +42,4 @@ else
         </tbody>
     </table>
 }
+<partial name="_pager" model="@pager" />

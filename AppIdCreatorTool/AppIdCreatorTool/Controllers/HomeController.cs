@@ -23,16 +23,34 @@ namespace AppIdCreatorTool.Controllers
             return View();
         }
 
-        public IActionResult SearchResult(string recordName)
+        public IActionResult SearchResult(int pg, string recordName)
         {
             if(string.IsNullOrWhiteSpace(recordName))
             {
                 return View("Index");
             }
-
+            if (pg < 1)
+            {
+                pg = 1;
+            }
+            
+            var count = _db.LicenseTemplates
+                .Where(x => EF.Functions.Like(x.FullName, $"%{recordName}%"))
+                .Count();
+            
+            var pager = new Pager(count, pg);
+            pager.Controller = "Home";
+            pager.Action = "SearchResult";
+            pager.RecordName = recordName;
+            ViewBag.Pager = pager;
+            int recSkip = (pg - 1) * pager.PageSize;
+            
             var searchResult = _db.LicenseTemplates
                 .Where(x => EF.Functions.Like(x.FullName, $"%{recordName}%"))
+                .Skip(recSkip)
+                .Take(pager.PageSize)
                 .ToList();
+            
             return View("SearchResult", searchResult);
         }
 

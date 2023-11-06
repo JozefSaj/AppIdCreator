@@ -1,0 +1,46 @@
+﻿@using AppIdCreatorTool.Model
+@model TemporaryLicenseTemplateModel
+
+<h2>Temporary License Template Details</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>Id</th>*@
+            <th>Full Name</th>
+            <th>Short Name</th>
+            <th>License Type</th>
+            <th>Date Published</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>@Model.FullName</td>
+            <td>@Model.ShortName</td>
+            <td>@Model.LicenseType</td>
+            <td>@Model.DatePublished</td>
+            <td>
+                <span style="@(Model.CurrentStatus == StatusType.Accepted ? "color: green;" : (Model.CurrentStatus == StatusType.Declined ? "color: red;" : ""))">
+                    @Model.CurrentStatus
+
+                </span>
+            </td>
+            
+    </tbody>
+</table>
+
+
+<div>
+    <h3>Add Note</h3>
+    <form asp-controller="TemporaryLicenseTemplate" asp-action="SaveNote" asp-route-id="@Model.ID" method="post">
+        <div class="form-group">
+            <textarea class="form-control" asp-for="Note" rows="5" id="noteTextarea"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save Note</button>
+        </div>
+    </form>
+</div>
+

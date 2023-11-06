@@ -13,10 +13,23 @@ namespace AppIdCreatorTool.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int pg=1)
         {
             var records = _db.TemporaryLicenseTemplateModels.ToList();
-            return View(records);
+            int count = records.Count();
+            if (pg < 1)
+            {
+                pg = 1;
+            }
+
+            var pager = new Pager(count, pg);
+            pager.Controller = "TemporaryLicenseTemplate";
+            pager.Action = "Index";
+            ViewBag.Pager = pager;
+
+            int recSkip = (pg - 1) * pager.PageSize;
+            var data = records.Skip(recSkip).Take(pager.PageSize).ToList();
+            return View("Index", data);
         }
 
         public IActionResult AcceptRecord(int ID)
@@ -59,5 +72,27 @@ namespace AppIdCreatorTool.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult ShowNote(int ID)
+        {
+            var record = _db.TemporaryLicenseTemplateModels
+                .FirstOrDefault(x => x.ID == ID);
+            return View("ShowNote", record);
+        }
+        [HttpPost]
+        public IActionResult SaveNote(int ID, string Note)
+        {
+            var record = _db.TemporaryLicenseTemplateModels.FirstOrDefault(lt => lt.ID == ID);
+
+            if (record == null)
+            {
+                return NotFound();
+            }
+            record.Note = Note;
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
     }
 }

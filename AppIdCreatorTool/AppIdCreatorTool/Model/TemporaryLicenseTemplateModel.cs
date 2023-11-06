@@ -8,6 +8,7 @@
         public string LicenseType { get; set; }
         public DateTime DatePublished { get; set; }
         public StatusType CurrentStatus { get; set; }
+        public string? Note { get; set; }
     }
 
     public enum StatusType
