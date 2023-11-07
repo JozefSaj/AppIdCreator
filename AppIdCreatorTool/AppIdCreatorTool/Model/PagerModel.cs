@@ -1,10 +1,10 @@
 ﻿namespace AppIdCreatorTool.Model
 {
-    public class Pager
+    public class PagerModel
     {
         public int TotalItems { get; set; }
         public int CurrentPage { get; set; }
-        public int PageSize { get; set; }
+        public static int PageSize { get; set; } = 5;
         public int TotalPages { get; set; }
         public int StartPage { get; set; }
         public int EndPage { get; set; }
@@ -12,13 +12,13 @@
         public string Action { get; set; }
         public string RecordName { get; set; }
 
-        public Pager()
+        public PagerModel()
         {
 
         }
-        public Pager(int totalItems, int page, int pageSize=5)
+        public PagerModel(int totalItems, int page)
         {
-            int totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
+            int totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)PageSize);
             int currentPage = page;
             int startPage = currentPage - 3;
             int endPage = currentPage + 2;
@@ -31,15 +31,15 @@
             if(endPage > totalPages)
             {
                 endPage = totalPages;
-                if(endPage > pageSize)
+                if(endPage > PageSize)
                 {
-                    startPage = endPage - (pageSize - 1);
+                    startPage = endPage - (PageSize - 1);
                 }
 
             }
             TotalItems = totalItems;
             CurrentPage = currentPage;
-            PageSize = pageSize;
+            PageSize = PageSize;
             TotalPages = totalPages;
             StartPage = startPage;
             EndPage = endPage;

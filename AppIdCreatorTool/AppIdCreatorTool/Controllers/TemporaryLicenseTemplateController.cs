@@ -15,23 +15,30 @@ namespace AppIdCreatorTool.Controllers
 
         public IActionResult Index(int pg=1)
         {
-            var records = _db.TemporaryLicenseTemplateModels.ToList();
-            int count = records.Count();
-            if (pg < 1)
-            {
-                pg = 1;
-            }
-
-            var pager = new Pager(count, pg);
-            pager.Controller = "TemporaryLicenseTemplate";
-            pager.Action = "Index";
+            var data = GetRecords(pg, out int count);
+            var pager = CreatePager(pg, count);
             ViewBag.Pager = pager;
 
-            int recSkip = (pg - 1) * pager.PageSize;
-            var data = records.Skip(recSkip).Take(pager.PageSize).ToList();
             return View("Index", data);
         }
 
+        private List<TemporaryLicenseTemplateModel> GetRecords(int pg, out int count)
+        {
+            var recSkip = (pg - 1) * PagerModel.PageSize;
+            count = _db.TemporaryLicenseTemplateModels.Count();
+            var data = _db.TemporaryLicenseTemplateModels.Skip(recSkip).Take(PagerModel.PageSize).ToList();
+            return data;
+
+        }
+        private PagerModel CreatePager(int pg, int count)
+        {
+            var pager = new PagerModel(count, pg)
+            {
+                Controller = "TemporaryLicenseTemplate",
+                Action = "Index",
+            };
+            return pager;
+        }
         public IActionResult AcceptRecord(int ID)
         {
             var acceptedRecord = _db.TemporaryLicenseTemplateModels

@@ -23,35 +23,50 @@ namespace AppIdCreatorTool.Controllers
             return View();
         }
 
-        public IActionResult SearchResult(int pg, string recordName)
+        public IActionResult SearchResult(string recordName, int pg = 1)
         {
             if(string.IsNullOrWhiteSpace(recordName))
             {
                 return View("Index");
             }
-            if (pg < 1)
+            
+            if(pg == 0)
             {
-                pg = 1;
+                return NotFound();
             }
-            
-            var count = _db.LicenseTemplates
-                .Where(x => EF.Functions.Like(x.FullName, $"%{recordName}%"))
-                .Count();
-            
-            var pager = new Pager(count, pg);
-            pager.Controller = "Home";
-            pager.Action = "SearchResult";
-            pager.RecordName = recordName;
+
+            var searchResult = GetSearchResults(recordName, pg, out int count);
+            var pager = CreatePager(recordName, pg, count);
             ViewBag.Pager = pager;
-            int recSkip = (pg - 1) * pager.PageSize;
-            
-            var searchResult = _db.LicenseTemplates
-                .Where(x => EF.Functions.Like(x.FullName, $"%{recordName}%"))
-                .Skip(recSkip)
-                .Take(pager.PageSize)
-                .ToList();
             
             return View("SearchResult", searchResult);
+        }
+
+        private List<LicenseTemplateModel> GetSearchResults(string recordName, int pg, out int count)
+        {
+            var skip = (pg - 1) * PagerModel.PageSize; 
+
+            var searchResult = _db.LicenseTemplates
+                .Where(x => EF.Functions.Like(x.FullName, $"%{recordName}%"))
+                .Skip(skip)
+                .Take(PagerModel.PageSize)
+                .ToList();
+
+            count = _db.LicenseTemplates
+                .Count(x => EF.Functions.Like(x.FullName, $"%{recordName}%"));
+
+            return searchResult;
+        }
+
+        private PagerModel CreatePager(string recordName, int pg, int count)
+        {
+            var pager = new PagerModel(count, pg)
+            {
+                Controller = "Home",
+                Action = "SearchResult",
+                RecordName = recordName
+            };
+            return pager;
         }
 
         public IActionResult CreateRecord(int ID)

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using AppIdCreatorTool.Dal;
+using AppIdCreatorTool.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
