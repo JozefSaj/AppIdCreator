@@ -31,12 +31,13 @@ namespace AppIdCreatorTool.Controllers
                 return View("Index");
             }
             
-            if(pg == 0)
-            {
-                return NotFound();
-            }
-
             var searchResult = GetSearchResults(recordName, pg, out int count);
+            if(searchResult.Count == 0)
+            {
+                ModelState.AddModelError("CustomError", "No result found based on given string");
+                return View("Index");
+
+            }
             var pager = CreatePager(recordName, pg, count);
             ViewBag.Pager = pager;
             
