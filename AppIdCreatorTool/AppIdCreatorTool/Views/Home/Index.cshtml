@@ -1,9 +1,24 @@
 ﻿@using AppIdCreatorTool.Components
-@{
-    ViewData["Title"] = "Home Page";
-}
+
 @*@(await Html.RenderComponentAsync<Counter>(RenderMode.Server))*@
+<div class="text-danger">
+    @if (ViewData.ModelState["CustomError"] != null)
+    {
+        <p>@Html.Raw(ViewData.ModelState["CustomError"].Errors[0].ErrorMessage)</p>
+
+    }
+    else if(!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All"></div>
+    }
+</div>
 <form asp-controller="Home" asp-action="SearchResult" method="get">
     <input type="text" name="recordName" placeholder="Search..." />
     <button type="submit">Search</button>
 </form>
+@section Scripts
+    {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

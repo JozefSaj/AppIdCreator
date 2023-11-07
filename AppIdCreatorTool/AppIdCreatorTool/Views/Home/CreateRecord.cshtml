@@ -8,6 +8,7 @@
 <h2>Create New Record</h2>
 
 <form asp-controller="Home" asp-action="SaveNewRecord" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div>
         <label for="FullName">Full Name</label>
         <input type="text" asp-for="FullName" id="FullNameInput" />
@@ -40,6 +41,12 @@
     </table>
 </div>
 
+@section Scripts
+    {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
 <script>
     //to handle real-time updates
     document.getElementById("FullNameInput").addEventListener("input", function () {

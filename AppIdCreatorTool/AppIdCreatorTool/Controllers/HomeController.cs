@@ -27,6 +27,7 @@ namespace AppIdCreatorTool.Controllers
         {
             if(string.IsNullOrWhiteSpace(recordName))
             {
+                ModelState.AddModelError("CustomError", "Empty or WhiteSpace string is not accepted");
                 return View("Index");
             }
             
@@ -92,7 +93,7 @@ namespace AppIdCreatorTool.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View("CreateRecord", viewModel); // If there are validation errors, return to the same page
+            return View("CreateRecord"); // If there are validation errors, return to the same page
         }
         public IActionResult Privacy()
         {
